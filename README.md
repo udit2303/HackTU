@@ -39,7 +39,6 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ### 3️⃣ Create and activate virtual environment
 
 ```powershell
-python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
