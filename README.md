@@ -144,7 +144,32 @@ from app.modules.<module_name>.router import router as module_router
 app.include_router(module_router, prefix="/<module_name>")
 ```
 
----
+## 🗄️ Database Migrations (Quick Guide)
+
+Whenever you add or modify a database model:
+
+1. **Register the model**
+     ```
+     # Add your model import to:
+     app/db/models.py
+     ```
+
+2. **Generate a migration**
+   ```bash
+   alembic revision --autogenerate -m "describe your change"
+   ```
+
+3. **Apply the migration**
+   ```bash
+   alembic upgrade head
+   ```
+
+That’s it.
+
+⚠️ Never edit the database schema manually.
+⚠️ Never delete or modify existing migration files.
+
+
 
 ## 🧠 Environment Variables
 

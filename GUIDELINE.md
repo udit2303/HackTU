@@ -367,6 +367,116 @@ Until such approval exists:
 > **Do not write raw SQL.**
 
 ---
+## Database Migrations & Extension Safety
+
+### Purpose
+
+This project uses **Alembic** for database migrations together with **PostGIS** extensions.  
+Because PostGIS installs **extension-owned tables**, special rules are required to ensure migrations remain safe and predictable.
+
+This section defines **how migrations work**, **what is ignored**, and **what developers must never do**.
+
+---
+
+### How Migrations Work
+
+- SQLAlchemy models define the **desired schema**
+- Alembic compares models (`Base.metadata`) with the actual database
+- Alembic generates migrations using `--autogenerate`
+- Only tables defined in SQLAlchemy models are managed by Alembic
+
+Tables not defined in models are **intentionally ignored**.
+
+---
+
+### Extension-Owned Tables (PostGIS)
+
+PostGIS and related extensions (e.g. `postgis_tiger_geocoder`) create internal tables such as:
+
+- Spatial reference tables
+- Tiger geocoder lookup tables
+- Loader metadata tables
+
+These tables:
+- Are owned by PostgreSQL extensions
+- Must **never** be modified or dropped by migrations
+- Are automatically excluded from Alembic autogeneration
+
+**Alembic is configured to ignore all tables that are not defined in SQLAlchemy models.**
+
+This behavior is intentional and required.
+
+---
+
+### Impact on Model Changes (Important)
+
+Ignoring extension tables **does NOT affect application tables**.
+
+Alembic will still:
+- Detect new tables
+- Detect column additions/removals
+- Detect constraint changes
+- Detect index changes
+- Detect GeoAlchemy2 geometry changes
+
+As long as:
+- The table exists in SQLAlchemy models
+- The model is registered in `app/db/models.py`
+
+All schema changes will be correctly migrated.
+
+---
+
+### Developer Responsibilities
+
+All developers must follow these rules:
+
+- **Every application table must have a SQLAlchemy model**
+- **Every model must be registered in `app/db/models.py`**
+- **Never create tables manually in the database**
+- **Never edit PostGIS or extension tables**
+- **Never write raw SQL migrations that touch extension tables**
+- **Always generate migrations using `alembic revision --autogenerate`**
+
+Failure to follow these rules will result in broken migrations.
+
+---
+
+### Allowed vs Forbidden Actions
+
+**Allowed**
+- Adding or modifying SQLAlchemy models
+- Running Alembic migrations
+- Using GeoAlchemy2 ORM constructs
+- Adding spatial indexes via migrations
+
+**Forbidden**
+- Dropping extension tables
+- Editing PostGIS tables
+- Writing raw SQL to modify extension schemas
+- Manually altering database schema
+
+---
+
+### Why This Rule Exists
+
+This approach:
+- Prevents accidental deletion of PostGIS internals
+- Keeps migrations deterministic
+- Avoids environment-specific failures
+- Allows safe use of PostgreSQL extensions
+- Keeps the architecture LLM-friendly and predictable
+
+---
+
+### Summary
+
+> Alembic manages **only what the application owns**.  
+> PostgreSQL extensions manage **everything else**.
+
+This separation is mandatory and non-negotiable.
+
+---
 
 ## Code Examples
 
