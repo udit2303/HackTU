@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgis/postgis:15-3.4
+    container_name: app-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
