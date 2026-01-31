@@ -17,6 +17,10 @@ class Area(Base):
     soil_type = Column(String, nullable=True)
     crop_type = Column(String, nullable=True)
     
+    # EWS-specific fields
+    monitored_hazards = Column(String, nullable=True)  # JSON string of hazard types being monitored
+    monitoring_status = Column(String, nullable=True)  # "active", "inactive", "suspended"
+    
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
