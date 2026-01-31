@@ -1,0 +1,41 @@
+name: CI Build and Migrations
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check project imports
+        run: |
+          python -c "import app.main"
+
+      - name: Set up PostgreSQL with PostGIS
+        uses: Harmon758/postgresql-action@v1.0.0
+        with:
+          postgresql version: '15'
+          postgresql db: test_db
+          postgresql user: test_user
+          postgresql password: test_pass
+          postgresql postgis: true
+
+      - name: Run Alembic migrations (PostgreSQL)
+        env:
+          DATABASE_URL: postgresql+psycopg2://test_user:test_pass@localhost:5432/test_db
+        run: |
+          alembic upgrade head
