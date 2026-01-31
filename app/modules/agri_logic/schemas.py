@@ -30,23 +30,52 @@ class AreaBase(BaseModel):
     crop_type: Optional[str] = None
 
 class AreaCreate(AreaBase):
-    # Geometry input as WKT string (e.g., "POINT(30 10)")
-    # In a real app, we might use pydantic-geojson or specific validators
-    geometry: str 
+    """
+    Input schema for creating an area. The geometry field expects a valid GeoJSON object as per RFC 7946.
+    Example:
+    {
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]]]
+        },
+        "properties": {}
+    }
+    """
+    geometry: dict = Field(..., example={
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]]]
+        },
+        "properties": {}
+    })
 
 class AreaUpdate(BaseModel):
     name: Optional[str] = None
     area_size: Optional[float] = None
     soil_type: Optional[str] = None
     crop_type: Optional[str] = None
-    geometry: Optional[str] = None
+    geometry: Optional[dict] = Field(None, example={
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]]]
+        },
+        "properties": {}
+    })
 
 class AreaResponse(AreaBase):
     id: int
     user_id: int
-    # We will return WKT or handle serialization in the router/service
-    # For now, let's assume we return it as a string (WKT) or we map it before response
-    geometry: Any 
+    geometry: dict = Field(..., example={
+        "type": "Feature",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]]]
+        },
+        "properties": {}
+    })
     created_at: datetime
     updated_at: Optional[datetime]
     
