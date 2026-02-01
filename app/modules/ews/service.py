@@ -28,7 +28,7 @@ from app.modules.ews.schemas import (
     PredictionHistoryResponse,
     PredictionHistoryItem,
 )
-from app.core.types.enums import RiskLevel, HazardType, TimeHorizon, HeatmapResolution
+from app.core.ctypes.enums import RiskLevel, HazardType, TimeHorizon, HeatmapResolution
 
 # ============================================================================
 # Placeholder AI/ML Models

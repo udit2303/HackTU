@@ -4,7 +4,7 @@ Core types and enums for the EWS (Early Warning System).
 All shared types and enums used across modules.
 """
 
-from app.core.types.enums import (
+from app.core.ctypes.enums import (
     RiskLevel,
     HazardType,
     TimeHorizon,

@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime
 
-from app.core.types.enums import (
+from app.core.ctypes.enums import (
     RiskLevel,
     HazardType,
     TimeHorizon,
