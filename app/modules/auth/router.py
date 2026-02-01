@@ -9,6 +9,7 @@ from app.modules.auth.schemas import Token
 
 router = APIRouter()
 
+
 @router.post("/login", response_model=Token)
 def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
@@ -27,8 +28,6 @@ def login(
             detail="Invalid credentials",
         )
 
-    access_token = create_access_token(
-        data={"sub": str(user.id)}
-    )
+    access_token = create_access_token(data={"sub": str(user.id)})
 
     return {"access_token": access_token}
