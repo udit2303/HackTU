@@ -11,19 +11,19 @@ from datetime import datetime
 from app.modules.agri_logic.models import Area
 from app.modules.ews.models import PredictionHistory, AnalyticsHistory
 
-
 # ============================================================================
 # Area Access
 # ============================================================================
 
+
 def get_area_by_id(db: Session, area_id: int) -> Optional[Area]:
     """
     Get an area by its ID.
-    
+
     Args:
         db: Database session
         area_id: ID of the area
-        
+
     Returns:
         Area model instance or None if not found
     """
@@ -33,12 +33,12 @@ def get_area_by_id(db: Session, area_id: int) -> Optional[Area]:
 def check_area_ownership(db: Session, area_id: int, user_id: int) -> bool:
     """
     Check if a user owns a specific area.
-    
+
     Args:
         db: Database session
         area_id: ID of the area
         user_id: ID of the user
-        
+
     Returns:
         True if user owns the area, False otherwise
     """
@@ -49,6 +49,7 @@ def check_area_ownership(db: Session, area_id: int, user_id: int) -> bool:
 # ============================================================================
 # Prediction History
 # ============================================================================
+
 
 def save_prediction(
     db: Session,
@@ -63,7 +64,7 @@ def save_prediction(
 ) -> PredictionHistory:
     """
     Save a prediction to history.
-    
+
     Args:
         db: Database session
         area_id: ID of the area
@@ -74,7 +75,7 @@ def save_prediction(
         confidence: Confidence score (0.0 to 1.0)
         expected_window_from: Start of expected event window (optional)
         expected_window_to: End of expected event window (optional)
-        
+
     Returns:
         Created PredictionHistory instance
     """
@@ -102,13 +103,13 @@ def get_prediction_history(
 ) -> List[PredictionHistory]:
     """
     Get prediction history for an area.
-    
+
     Args:
         db: Database session
         area_id: ID of the area
         skip: Number of records to skip (for pagination)
         limit: Maximum number of records to return
-        
+
     Returns:
         List of PredictionHistory instances
     """
@@ -125,15 +126,17 @@ def get_prediction_history(
 def get_prediction_history_count(db: Session, area_id: int) -> int:
     """
     Get total count of predictions for an area.
-    
+
     Args:
         db: Database session
         area_id: ID of the area
-        
+
     Returns:
         Total number of predictions
     """
-    return db.query(PredictionHistory).filter(PredictionHistory.area_id == area_id).count()
+    return (
+        db.query(PredictionHistory).filter(PredictionHistory.area_id == area_id).count()
+    )
 
 
 def get_prediction_history_by_hazard(
@@ -145,20 +148,22 @@ def get_prediction_history_by_hazard(
 ) -> List[PredictionHistory]:
     """
     Get prediction history for an area filtered by hazard type.
-    
+
     Args:
         db: Database session
         area_id: ID of the area
         hazard: Hazard type to filter by
         skip: Number of records to skip (for pagination)
         limit: Maximum number of records to return
-        
+
     Returns:
         List of PredictionHistory instances
     """
     return (
         db.query(PredictionHistory)
-        .filter(PredictionHistory.area_id == area_id, PredictionHistory.hazard == hazard)
+        .filter(
+            PredictionHistory.area_id == area_id, PredictionHistory.hazard == hazard
+        )
         .order_by(PredictionHistory.created_at.desc())
         .offset(skip)
         .limit(limit)
@@ -169,6 +174,7 @@ def get_prediction_history_by_hazard(
 # ============================================================================
 # Analytics History
 # ============================================================================
+
 
 def save_analytics(
     db: Session,
@@ -183,7 +189,7 @@ def save_analytics(
 ) -> AnalyticsHistory:
     """
     Save analytics results to history.
-    
+
     Args:
         db: Database session
         area_id: ID of the area
@@ -194,7 +200,7 @@ def save_analytics(
         rainfall_accumulation_mm: Rainfall accumulation
         time_range_from: Start of analyzed time range
         time_range_to: End of analyzed time range
-        
+
     Returns:
         Created AnalyticsHistory instance
     """
@@ -222,13 +228,13 @@ def get_analytics_history(
 ) -> List[AnalyticsHistory]:
     """
     Get analytics history for an area.
-    
+
     Args:
         db: Database session
         area_id: ID of the area
         skip: Number of records to skip (for pagination)
         limit: Maximum number of records to return
-        
+
     Returns:
         List of AnalyticsHistory instances
     """

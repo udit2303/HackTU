@@ -1,9 +1,11 @@
 from typing import Optional, List, Any, Dict
 from datetime import datetime
 from pydantic import BaseModel, Field, validator
-# We might need a way to handle Geometry input. 
+
+# We might need a way to handle Geometry input.
 # For simplicity, we'll accept WKT (Well-Known Text) strings or GeoJSON dictionaries.
 # app/modules/agri_logic/schemas.py
+
 
 class SoilMeasurementBase(BaseModel):
     nitrogen: float
@@ -12,8 +14,10 @@ class SoilMeasurementBase(BaseModel):
     ph: float
     source: Optional[str] = "manual"
 
+
 class SoilMeasurementCreate(SoilMeasurementBase):
     pass
+
 
 class SoilMeasurementResponse(SoilMeasurementBase):
     id: int
@@ -23,11 +27,13 @@ class SoilMeasurementResponse(SoilMeasurementBase):
     class Config:
         from_attributes = True
 
+
 class AreaBase(BaseModel):
     name: str
     area_size: Optional[float] = None
     soil_type: Optional[str] = None
     crop_type: Optional[str] = None
+
 
 class AreaCreate(AreaBase):
     """
@@ -42,45 +48,58 @@ class AreaCreate(AreaBase):
         "properties": {}
     }
     """
-    geometry: dict = Field(..., example={
-        "type": "Feature",
-        "geometry": {
-            "type": "Polygon",
-            "coordinates": [[[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]]]
+
+    geometry: dict = Field(
+        ...,
+        example={
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]]],
+            },
+            "properties": {},
         },
-        "properties": {}
-    })
+    )
+
 
 class AreaUpdate(BaseModel):
     name: Optional[str] = None
     area_size: Optional[float] = None
     soil_type: Optional[str] = None
     crop_type: Optional[str] = None
-    geometry: Optional[dict] = Field(None, example={
-        "type": "Feature",
-        "geometry": {
-            "type": "Polygon",
-            "coordinates": [[[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]]]
+    geometry: Optional[dict] = Field(
+        None,
+        example={
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]]],
+            },
+            "properties": {},
         },
-        "properties": {}
-    })
+    )
+
 
 class AreaResponse(AreaBase):
     id: int
     user_id: int
-    geometry: dict = Field(..., example={
-        "type": "Feature",
-        "geometry": {
-            "type": "Polygon",
-            "coordinates": [[[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]]]
+    geometry: dict = Field(
+        ...,
+        example={
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]]],
+            },
+            "properties": {},
         },
-        "properties": {}
-    })
+    )
     created_at: datetime
     updated_at: Optional[datetime]
-    
+
     class Config:
         from_attributes = True
+
 
 class PredictionResponse(BaseModel):
     area_id: int
@@ -90,6 +109,7 @@ class PredictionResponse(BaseModel):
     predicted_ph: float
     health_score: float
     deficiency_indicators: List[str]
+
 
 class AnalyticsResponse(BaseModel):
     area_id: int

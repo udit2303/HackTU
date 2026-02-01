@@ -9,6 +9,7 @@ from enum import Enum
 
 class RiskLevel(str, Enum):
     """Risk level classification for hazards."""
+
     LOW = "low"
     MODERATE = "moderate"
     HIGH = "high"
@@ -17,12 +18,14 @@ class RiskLevel(str, Enum):
 
 class HazardType(str, Enum):
     """Types of hazards monitored by the system."""
+
     LANDSLIDE = "landslide"
     SUBSIDENCE = "subsidence"
 
 
 class TimeHorizon(str, Enum):
     """Time horizons for predictions."""
+
     HOURS_6 = "6h"
     HOURS_24 = "24h"
     HOURS_72 = "72h"
@@ -31,6 +34,7 @@ class TimeHorizon(str, Enum):
 
 class HeatmapLayer(str, Enum):
     """Available heatmap layers for visualization."""
+
     LANDSLIDE_RISK = "landslide_risk"
     SUBSIDENCE_RISK = "subsidence_risk"
     SOIL_MOISTURE = "soil_moisture"
@@ -39,6 +43,7 @@ class HeatmapLayer(str, Enum):
 
 class HeatmapResolution(str, Enum):
     """Resolution levels for heatmap generation."""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -46,6 +51,7 @@ class HeatmapResolution(str, Enum):
 
 class SimulationType(str, Enum):
     """Types of scenario simulations."""
+
     RAINFALL = "rainfall"
     SOIL_SATURATION = "soil_saturation"
     GROUNDWATER_RISE = "groundwater_rise"

@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr, field_validator
 
+
 class UserCreate(BaseModel):
     email: str
     password: str
@@ -9,6 +10,7 @@ class UserCreate(BaseModel):
         if len(v.encode("utf-8")) > 72:
             raise ValueError("Password too long")
         return v
+
 
 class UserOut(BaseModel):
     id: int

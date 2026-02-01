@@ -30,7 +30,6 @@ def get_database_url() -> str:
     )
 
 
-
 def include_object(object, name, type_, reflected, compare_to):
     if type_ == "table" and reflected and compare_to is None:
         return False

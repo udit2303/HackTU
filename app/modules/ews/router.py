@@ -50,7 +50,7 @@ def compute_analytics(
 ):
     """
     Compute ground stability analytics for an area.
-    
+
     - **area_id**: ID of the area to analyze
     - **time_range**: Time range for analysis (from_time, to_time in ISO-8601 format)
     - **Returns**: Stability index, confidence, and detailed metrics
@@ -61,7 +61,7 @@ def compute_analytics(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to access this area",
         )
-    
+
     # Verify area exists
     area = repository.get_area_by_id(db, request.area_id)
     if not area:
@@ -69,7 +69,7 @@ def compute_analytics(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Area not found",
         )
-    
+
     # Compute analytics
     return AnalyticsService.compute_analytics(
         db=db,
@@ -93,7 +93,7 @@ def predict_hazard(
 ):
     """
     Predict hazard risk for an area.
-    
+
     - **area_id**: ID of the area to predict for
     - **hazard**: Type of hazard (landslide or subsidence)
     - **horizon**: Prediction time horizon (6h, 24h, 72h, 7d)
@@ -105,7 +105,7 @@ def predict_hazard(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to access this area",
         )
-    
+
     # Verify area exists
     area = repository.get_area_by_id(db, request.area_id)
     if not area:
@@ -113,7 +113,7 @@ def predict_hazard(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Area not found",
         )
-    
+
     # Predict hazard
     return PredictionService.predict_hazard(
         db=db,
@@ -139,7 +139,7 @@ def get_prediction_history(
 ):
     """
     Get prediction history for an area.
-    
+
     - **area_id**: ID of the area
     - **skip**: Number of records to skip (for pagination)
     - **limit**: Maximum number of records to return
@@ -151,7 +151,7 @@ def get_prediction_history(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to access this area",
         )
-    
+
     # Verify area exists
     area = repository.get_area_by_id(db, area_id)
     if not area:
@@ -159,7 +159,7 @@ def get_prediction_history(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Area not found",
         )
-    
+
     # Get history
     return PredictionService.get_prediction_history(
         db=db,
@@ -183,7 +183,7 @@ def simulate_scenarios(
 ):
     """
     Simulate multiple scenarios for an area.
-    
+
     - **area_id**: ID of the area to simulate
     - **hazard**: Type of hazard to simulate
     - **scenarios**: List of scenarios with parameters (e.g., rainfall amount, groundwater rise)
@@ -195,7 +195,7 @@ def simulate_scenarios(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to access this area",
         )
-    
+
     # Verify area exists
     area = repository.get_area_by_id(db, request.area_id)
     if not area:
@@ -203,7 +203,7 @@ def simulate_scenarios(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Area not found",
         )
-    
+
     # Simulate scenarios
     return ScenarioService.simulate_scenarios(
         db=db,
@@ -227,7 +227,7 @@ def generate_heatmap(
 ):
     """
     Generate a risk heatmap for an area.
-    
+
     - **area_id**: ID of the area
     - **hazard**: Type of hazard to visualize
     - **layer**: Heatmap layer (landslide_risk, subsidence_risk, soil_moisture, displacement_rate)
@@ -240,7 +240,7 @@ def generate_heatmap(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to access this area",
         )
-    
+
     # Verify area exists
     area = repository.get_area_by_id(db, request.area_id)
     if not area:
@@ -248,7 +248,7 @@ def generate_heatmap(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Area not found",
         )
-    
+
     # Generate heatmap
     return HeatmapService.generate_heatmap(
         db=db,
@@ -273,7 +273,7 @@ def compute_evacuation_routes(
 ):
     """
     Compute safe evacuation routes from start points.
-    
+
     - **area_id**: ID of the area
     - **start_points**: List of starting coordinates (lat/lon)
     - **Returns**: List of evacuation routes with risk scores, ETAs, and LineString geometries
@@ -284,7 +284,7 @@ def compute_evacuation_routes(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to access this area",
         )
-    
+
     # Verify area exists
     area = repository.get_area_by_id(db, request.area_id)
     if not area:
@@ -292,7 +292,7 @@ def compute_evacuation_routes(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Area not found",
         )
-    
+
     # Compute routes
     return EvacuationService.compute_evacuation_routes(
         db=db,

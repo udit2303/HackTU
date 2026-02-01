@@ -8,5 +8,5 @@ app = FastAPI(title="FastAPI Backend")
 
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
 app.include_router(users_router, prefix="/users", tags=["users"])
-app.include_router(agri_logic_router) # Prefix is already defined in router.py
-app.include_router(ews_router) # Prefix is already defined in router.py
+app.include_router(agri_logic_router)  # Prefix is already defined in router.py
+app.include_router(ews_router)  # Prefix is already defined in router.py

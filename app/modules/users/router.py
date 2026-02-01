@@ -8,11 +8,13 @@ from app.core.security import get_current_user
 
 router = APIRouter()
 
+
 @router.post("/", response_model=UserOut)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     if repository.get_user_by_email(db, user.email):
         raise HTTPException(status_code=400, detail="Email already registered")
     return service.create_user(db, user.email, user.password)
+
 
 @router.get("/me")
 def read_me(user_id: str = Depends(get_current_user)):

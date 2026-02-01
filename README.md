@@ -1,3 +1,23 @@
+## 🖤 Code Formatting with Black
+
+To auto-format your Python code, first install Black:
+
+```sh
+pip install black
+```
+
+To format all files in the project:
+
+```sh
+black .
+```
+
+To check formatting without making changes (CI style):
+
+```sh
+black --check .
+```
+
 
 # 🧩 Simple Modular FastAPI Backend
 
