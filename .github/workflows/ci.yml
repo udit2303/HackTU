@@ -51,7 +51,11 @@ jobs:
           done
       - name: Run Alembic migrations
         env:
-          DATABASE_URL: postgresql+psycopg2://test_user:test_pass@localhost:5432/test_db
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_pass
+          POSTGRES_DB: test_db
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
         run: alembic upgrade head
 
   # Stage 2: Build/Type-check (optional for Python)
